@@ -1,6 +1,7 @@
 import React from "react";
 import Board from "./components/Board";
 import Score from "./components/Score";
+import Reset from "./components/Reset";
 import { useState } from "react";
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
         tieScore++;
         setScore({ ...score, tieScore })
       }
-      setTimeout(() => setBoard(Array(9).fill(null)), 2000);
+      setTimeout(() => setBoard(Array(9).fill(null)), 3000);
     }
     setIsXTurn(!isXTurn);
   }
@@ -61,10 +62,17 @@ function App() {
     } else return null;
   }
 
+  const resetBoard = () => {
+    setIsXTurn(true);
+    setBoard(Array(9).fill(null));
+    setScore({ xScore: 0, tieScore: 0, oScore: 0});
+  }
+
   return (
     <div className='App p-8 bg-gradient-to-t from-cyan-300 to-teal-100 w-screen min-h-screen flex flex-col justify-center items-center font-mono'>
       <Board board={board} handleCellClick={handleCellClick}/>
       <Score isXTurn={isXTurn} score={score}/>
+      <Reset resetBoard={resetBoard} />
     </div>
   );
 }
