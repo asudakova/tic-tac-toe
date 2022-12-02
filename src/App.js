@@ -1,13 +1,16 @@
 import React from "react";
+import { useState } from "react";
 import Board from "./components/Board";
 import Score from "./components/Score";
-import Reset from "./components/Reset";
-import { useState } from "react";
+import Button from "./components/Button";
+import Popup from "./components/Popup";
 
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXTurn, setIsXTurn] = useState(true);
   const [score, setScore] = useState({ xScore: 0, tieScore: 0,oScore: 0});
+  const [isStart, setIsStart] = useState(true);
+  const [players, setPlayers] = useState({ pl1 : '', pl2: '' })
 
   const handleCellClick = (cellInd) => {
 
@@ -35,7 +38,7 @@ function App() {
         tieScore++;
         setScore({ ...score, tieScore })
       }
-      setTimeout(() => setBoard(Array(9).fill(null)), 3000);
+      setTimeout(() => setBoard(Array(9).fill(null)), 1500);
     }
     setIsXTurn(!isXTurn);
   }
@@ -62,17 +65,30 @@ function App() {
     } else return null;
   }
 
-  const resetBoard = () => {
+  const resetGame = () => {
     setIsXTurn(true);
     setBoard(Array(9).fill(null));
     setScore({ xScore: 0, tieScore: 0, oScore: 0});
+    setIsStart(true);
+    setPlayers({ pl1 : '', pl2: '' });
+  }
+
+  const startGame = () => {
+    setIsStart(false);
   }
 
   return (
-    <div className='App p-8 bg-gradient-to-t from-cyan-300 to-teal-100 w-screen min-h-screen flex flex-col justify-center items-center font-mono'>
+    <div className='App p-8 bg-gradient-to-t from-cyan-300 to-teal-100 w-screen min-h-screen flex justify-center items-center font-mono'>
+
+      {isStart ? 
+      <Popup players={players} setPlayers={setPlayers} startGame={startGame}/> :
+      <div className='w-full h-full flex flex-col justify-center items-center'>
       <Board board={board} handleCellClick={handleCellClick}/>
-      <Score isXTurn={isXTurn} score={score}/>
-      <Reset resetBoard={resetBoard} />
+      <Score players={players} isXTurn={isXTurn} score={score}/>
+      <Button handleClick={resetGame}>Reset</Button>
+      </div>
+      }
+        
     </div>
   );
 }
