@@ -7,7 +7,6 @@ function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXTurn, setIsXTurn] = useState(true);
   const [score, setScore] = useState({ xScore: 0, tieScore: 0,oScore: 0});
-  const [winning, setWinning] = useState(null);
 
   const handleCellClick = (cellInd) => {
 
@@ -22,11 +21,11 @@ function App() {
     
     const winner = checkIsWin(board);
     if (winner) {
-      if (winner[0] === "x") {
+      if (winner === "x") {
         let { xScore } = score;
         xScore++;
         setScore({ ...score, xScore })
-      } else if (winner[0] === "o") {
+      } else if (winner === "o") {
         let { oScore } = score;
         oScore++;
         setScore({ ...score, oScore })
@@ -35,7 +34,6 @@ function App() {
         tieScore++;
         setScore({ ...score, tieScore })
       }
-      setWinning(winner[1]);
       setTimeout(() => setBoard(Array(9).fill(null)), 2000);
     }
     setIsXTurn(!isXTurn);
@@ -55,15 +53,17 @@ function App() {
     for (let i = 0; i < winningPatterns.length; i++) {
       let [x, y, z] = winningPatterns[i];
       if (board[x] && board[x] === board[y] && board[x] === board[z]) {
-        return [board[x], [x, y, z]];
+        return board[x];
       }
     }
-    return null;
+    if (!board.includes(null)) {
+      return 'tie';
+    } else return null;
   }
 
   return (
     <div className='App p-8 bg-gradient-to-t from-cyan-300 to-teal-100 w-screen min-h-screen flex flex-col justify-center items-center font-mono'>
-      <Board winning={winning} board={board} handleCellClick={handleCellClick}/>
+      <Board board={board} handleCellClick={handleCellClick}/>
       <Score isXTurn={isXTurn} score={score}/>
     </div>
   );

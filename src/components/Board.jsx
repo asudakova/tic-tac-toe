@@ -1,7 +1,7 @@
 import React from 'react';
 import Cell from './Cell';
 
-const Board = ({board, handleCellClick, winning}) => {
+const Board = ({board, handleCellClick}) => {
    return (
       <div className='grid grid-cols-3 gap-2'>
          {board.map((cell, index) => {
