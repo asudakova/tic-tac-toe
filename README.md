@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Tic Tac Toe
+
+a simple react app to get to know tailwind css
+
+https://asudakova.github.io/tic-tac-toe/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
